@@ -189,7 +189,7 @@ export const portfolio = {
         role: "Content Contributor",
         dates: "Nov 2024 – Feb 2025",
         location: "Remote",
-        link: "https://www.google.com/",
+        link: "https://labs.google.com/",
         impact: ["300+ Search Notes", "3rd fastest contributor"],
         points: [
           "Created and reviewed 300+ Search Notes submissions, evaluating user intent and quality.",
