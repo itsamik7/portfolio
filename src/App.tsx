@@ -589,14 +589,37 @@ function Experience() {
             return (
               <Reveal key={item.company + item.role} delay={0.04 * i}>
                 <div className={`exp-item ${isOpen ? "exp-item--open" : ""}`}>
-                  <button
+                  <div
                     className="exp-header"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => setOpen(isOpen ? null : i)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setOpen(isOpen ? null : i);
+                      }
+                    }}
                     aria-expanded={isOpen}
                     data-testid={`exp-toggle-${i}`}
                   >
                     <div className="exp-header-main">
-                      <h3 className="exp-company">{item.company}</h3>
+                      <h3 className="exp-company">
+                        {item.company}
+                        {item.link && (
+                          <a
+                            className="exp-link-icon"
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Visit ${item.company} website`}
+                            data-testid={`exp-link-${i}`}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            ↗
+                          </a>
+                        )}
+                      </h3>
                       <p className="exp-role">{item.role}</p>
                       <p className="exp-dates">
                         {item.dates} · {item.location}
@@ -608,7 +631,7 @@ function Experience() {
                     >
                       ↓
                     </span>
-                  </button>
+                  </div>
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
@@ -641,17 +664,6 @@ function Experience() {
                                 <li key={imp}>{imp}</li>
                               ))}
                             </ul>
-                          )}
-                          {item.link && (
-                            <a
-                              className="exp-link"
-                              href={item.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              data-testid={`exp-link-${i}`}
-                            >
-                              Visit website ↗
-                            </a>
                           )}
                         </div>
                       </motion.div>
@@ -823,9 +835,11 @@ const MailIcon = () => (
   </svg>
 );
 
-const PhoneIcon = () => (
+const InstagramIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+    <rect x="3" y="3" width="18" height="18" rx="5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="17.2" cy="6.8" r="0.4" fill="currentColor" stroke="none" />
   </svg>
 );
 
@@ -869,15 +883,18 @@ function Contact() {
               <span className="contact-icon-label">EMAIL</span>
             </a>
             <a
-              href={`tel:${personal.phone.replace(/\s/g, "")}`}
+              href={personal.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
               className="contact-icon"
-              aria-label={`Call ${personal.name}`}
-              data-testid="contact-phone-link"
+              aria-label={`${personal.name} on Instagram`}
+              data-cursor="OPEN"
+              data-testid="contact-instagram-link"
             >
               <span className="contact-icon-circle">
-                <PhoneIcon />
+                <InstagramIcon />
               </span>
-              <span className="contact-icon-label">PHONE</span>
+              <span className="contact-icon-label">INSTAGRAM</span>
             </a>
             <a
               href={personal.linkedin}

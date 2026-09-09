@@ -1569,19 +1569,27 @@ button {
   background: var(--accent);
 }
 
-.exp-link {
-  display: inline-block;
-  margin-top: 1.2rem;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.exp-link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-left: 0.85rem;
+  border: 1px solid var(--line-light);
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 500;
   color: var(--accent);
+  vertical-align: middle;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease),
+    transform 0.3s var(--ease);
 }
 
-.exp-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.exp-link-icon:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translate(2px, -2px);
 }
 
 /* ---------- contact icons ---------- */
