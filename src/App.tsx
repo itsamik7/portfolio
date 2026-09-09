@@ -934,7 +934,7 @@ function Contact() {
               rel="noopener noreferrer"
               data-testid="footer-linkedin-link"
             >
-              {personal.linkedinLabel}
+              LinkedIn
             </a>
           </div>
           <span className="footer-tagline">{footer.tagline}</span>
