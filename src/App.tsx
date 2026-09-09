@@ -262,9 +262,6 @@ function Nav() {
   return (
     <>
       <header className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
-        <a href="#home" className="nav-logo" data-testid="nav-logo">
-          {portfolio.personal.initials}
-        </a>
         <nav className="nav-links" aria-label="Primary">
           {portfolio.nav.links.map((l) => (
             <a key={l.href} href={l.href} data-testid={`nav-link-${l.label.toLowerCase()}`}>
@@ -424,7 +421,7 @@ function Hero() {
 
           <Magnetic>
             <motion.a
-              href="#work"
+              href="#experience"
               className="btn-primary"
               data-cursor="EXPLORE"
               data-testid="hero-cta"
@@ -518,20 +515,22 @@ function Orbit() {
     >
       <motion.div className="orbit" style={{ rotateX: srx, rotateY: sry }}>
         <div className="orbit-ring" />
-        {about.cycle.map((word, i) => {
-          const angle = i * (360 / about.cycle.length);
-          return (
-            <span
-              key={word}
-              className="orbit-word"
-              style={{
-                transform: `rotate(${angle}deg) translateY(calc(var(--orbit-radius) * -1)) rotate(${-angle}deg)`,
-              }}
-            >
-              {word}
-            </span>
-          );
-        })}
+        <div className="orbit-words">
+          {about.cycle.map((word, i) => {
+            const angle = i * (360 / about.cycle.length);
+            return (
+              <span
+                key={word}
+                className="orbit-word"
+                style={{
+                  transform: `rotate(${angle}deg) translateY(calc(var(--orbit-radius) * -1)) rotate(${-angle}deg)`,
+                }}
+              >
+                <span className="orbit-word-inner">{word}</span>
+              </span>
+            );
+          })}
+        </div>
         <div className="orbit-center">{personal.initials}</div>
       </motion.div>
     </div>
@@ -570,172 +569,12 @@ function About() {
   );
 }
 
-/* ---------- 03 work + case study modal ---------- */
-
-function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [onClose]);
-
-  return (
-    <motion.div
-      className="modal-backdrop"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      onClick={onClose}
-      data-testid="modal-backdrop"
-    >
-      <motion.article
-        className="modal"
-        role="dialog"
-        aria-modal="true"
-        aria-label={`${project.title} case study`}
-        data-testid="case-study-modal"
-        initial={{ opacity: 0, y: 60, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 40, scale: 0.98 }}
-        transition={{ duration: 0.45, ease: EASE }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          ref={closeRef}
-          className="modal-close"
-          onClick={onClose}
-          aria-label="Close case study"
-          data-testid="modal-close-button"
-        >
-          ✕
-        </button>
-        <p className="section-label">CASE STUDY — {project.index}</p>
-        <h3 className="modal-title">{project.title}</h3>
-        <p className="modal-category">{project.category}</p>
-
-        <div className="modal-metrics">
-          {project.metrics.map((m) => (
-            <div key={m.label} className="modal-metric">
-              <span className="modal-metric-value">
-                <CountUp text={m.value} />
-              </span>
-              <span className="modal-metric-label">{m.label}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="modal-body">
-          {project.caseStudy.map((block) => (
-            <div key={block.heading} className="modal-block">
-              <h4>{block.heading}</h4>
-              <p>{block.body}</p>
-            </div>
-          ))}
-        </div>
-      </motion.article>
-    </motion.div>
-  );
-}
-
-function ProjectCard({
-  p,
-  i,
-  onOpen,
-}: {
-  p: Project;
-  i: number;
-  onOpen: (p: Project) => void;
-}) {
-  const reduce = useReducedMotion();
-  const mediaRef = useRef<HTMLDivElement>(null);
-  // subtle parallax: the image drifts inside its clipped frame while scrolling
-  const { scrollYProgress } = useScroll({
-    target: mediaRef,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["-7%", "7%"]);
-
-  return (
-    <Reveal delay={0.08 * (i % 2)} className={`work-cell work-cell--${i % 2}`}>
-      <div
-        className="project-card"
-        role="button"
-        tabIndex={0}
-        aria-label={`Open case study: ${p.title}`}
-        data-cursor="VIEW"
-        data-testid={`project-card-${p.id}`}
-        onClick={() => onOpen(p)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onOpen(p);
-          }
-        }}
-      >
-        <div className="project-media" ref={mediaRef}>
-          <motion.div className="project-media-inner" style={reduce ? undefined : { y }}>
-            <SmartImage
-              filename={p.image}
-              alt={`${p.title} project visual`}
-              label={p.title}
-              className="project-img"
-            />
-          </motion.div>
-          <span className="project-index">{p.index}</span>
-          <span className="project-open" aria-hidden="true">
-            OPEN ↗
-          </span>
-        </div>
-        <div className="project-info">
-          <p className="project-category">{p.category}</p>
-          <h3 className="project-title">{p.title}</h3>
-          <div className="project-metrics">
-            {p.metrics.map((m) => (
-              <span key={m.label} className="project-metric">
-                <strong>{m.value}</strong> {m.label}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </Reveal>
-  );
-}
-
-function Work() {
-  const { work, projects } = portfolio;
-  const [active, setActive] = useState<Project | null>(null);
-
-  return (
-    <section id="work" className="section section--dark">
-      <div className="container">
-        <SectionHead label={work.label} top={work.headlineTop} bottom={work.headlineBottom} />
-        <div className="work-grid">
-          {projects.map((p, i) => (
-            <ProjectCard key={p.id} p={p} i={i} onOpen={setActive} />
-          ))}
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {active && <ProjectModal project={active} onClose={() => setActive(null)} />}
-      </AnimatePresence>
-    </section>
-  );
-}
-
 /* ---------- 04 experience ---------- */
 
 function Experience() {
   const { experience } = portfolio;
+  const [open, setOpen] = useState<number | null>(0);
+
   return (
     <section id="experience" className="section section--light">
       <div className="container">
@@ -744,57 +583,84 @@ function Experience() {
           top={experience.headlineTop}
           bottom={experience.headlineBottom}
         />
-        <div className="timeline">
-          {experience.primary.map((item, i) => (
-            <Reveal key={item.company + item.role} delay={0.05 * i}>
-              <div className="timeline-item timeline-item--primary">
-                <div className="timeline-marker" aria-hidden="true" />
-                <div className="timeline-content">
-                  <p className="timeline-dates">
-                    {item.dates} · {item.location}
-                  </p>
-                  <h3 className="timeline-company">{item.company}</h3>
-                  <p className="timeline-role">{item.role}</p>
-                  {item.focus && (
-                    <div className="timeline-tags">
-                      {item.focus.map((f) => (
-                        <span key={f} className="tag tag--outline">
-                          {f}
-                        </span>
-                      ))}
+        <div className="exp-list">
+          {experience.items.map((item, i) => {
+            const isOpen = open === i;
+            return (
+              <Reveal key={item.company + item.role} delay={0.04 * i}>
+                <div className={`exp-item ${isOpen ? "exp-item--open" : ""}`}>
+                  <button
+                    className="exp-header"
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    data-testid={`exp-toggle-${i}`}
+                  >
+                    <div className="exp-header-main">
+                      <h3 className="exp-company">{item.company}</h3>
+                      <p className="exp-role">{item.role}</p>
+                      <p className="exp-dates">
+                        {item.dates} · {item.location}
+                      </p>
                     </div>
-                  )}
-                  {item.impact && (
-                    <ul className="timeline-impact">
-                      {item.impact.map((imp) => (
-                        <li key={imp}>{imp}</li>
-                      ))}
-                    </ul>
-                  )}
+                    <span
+                      className={`exp-chevron ${isOpen ? "exp-chevron--open" : ""}`}
+                      aria-hidden="true"
+                    >
+                      ↓
+                    </span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        className="exp-body"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.45, ease: EASE }}
+                      >
+                        <div className="exp-body-inner">
+                          {item.points && (
+                            <ul className="exp-points">
+                              {item.points.map((pt) => (
+                                <li key={pt}>{pt}</li>
+                              ))}
+                            </ul>
+                          )}
+                          {item.focus && (
+                            <div className="timeline-tags">
+                              {item.focus.map((f) => (
+                                <span key={f} className="tag tag--outline">
+                                  {f}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {item.impact && (
+                            <ul className="timeline-impact">
+                              {item.impact.map((imp) => (
+                                <li key={imp}>{imp}</li>
+                              ))}
+                            </ul>
+                          )}
+                          {item.link && (
+                            <a
+                              className="exp-link"
+                              href={item.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-testid={`exp-link-${i}`}
+                            >
+                              Visit website ↗
+                            </a>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </div>
-            </Reveal>
-          ))}
-
-          <Reveal delay={0.1}>
-            <p className="timeline-subhead">Earlier</p>
-          </Reveal>
-          {experience.earlier.map((item, i) => (
-            <Reveal key={item.company + item.role} delay={0.05 * i}>
-              <div className="timeline-item">
-                <div className="timeline-marker timeline-marker--small" aria-hidden="true" />
-                <div className="timeline-content timeline-content--compact">
-                  <div>
-                    <h3 className="timeline-company timeline-company--small">{item.company}</h3>
-                    <p className="timeline-role">{item.role}</p>
-                  </div>
-                  <p className="timeline-dates">
-                    {item.dates} · {item.location}
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -849,43 +715,6 @@ function Ventures() {
               </div>
             </Reveal>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- 06 achievements ---------- */
-
-function Achievements() {
-  const { achievements } = portfolio;
-  return (
-    <section className="section section--dark section--achievements">
-      <div className="container">
-        <div className="section-head">
-          <Reveal>
-            <p className="section-label">{achievements.label}</p>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <h2 className="section-title">{achievements.headline}</h2>
-          </Reveal>
-        </div>
-        <div className="achievements-list">
-          {achievements.items.map((a, i) => (
-            <Reveal key={a.big} delay={0.06 * i}>
-              <div className="achievement-row">
-                <span className="achievement-num" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="achievement-big">{a.big}</h3>
-                <div className="achievement-lines">
-                  {a.lines.map((l) => (
-                    <p key={l}>{l}</p>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </div>
     </section>
@@ -987,6 +816,25 @@ function Beyond() {
 
 /* ---------- 09 contact + footer ---------- */
 
+const MailIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3" y="5" width="18" height="14" rx="2" />
+    <path d="m3 7 9 6 9-6" />
+  </svg>
+);
+
+const PhoneIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+);
+
+const LinkedInIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
+  </svg>
+);
+
 function Contact() {
   const { contact, personal, footer } = portfolio;
   return (
@@ -1007,28 +855,43 @@ function Contact() {
         </Reveal>
 
         <Reveal delay={0.24}>
-          <div className="contact-links">
-            <a href={`mailto:${personal.email}`} className="contact-link" data-cursor="OPEN" data-testid="contact-email-link">
-              <span className="contact-link-label">EMAIL</span>
-              <span className="contact-link-value">{personal.email}</span>
-              <span className="contact-link-arrow" aria-hidden="true">↗</span>
+          <div className="contact-icons">
+            <a
+              href={`mailto:${personal.email}`}
+              className="contact-icon"
+              aria-label={`Email ${personal.name}`}
+              data-cursor="OPEN"
+              data-testid="contact-email-link"
+            >
+              <span className="contact-icon-circle">
+                <MailIcon />
+              </span>
+              <span className="contact-icon-label">EMAIL</span>
             </a>
-            <a href={`tel:${personal.phone.replace(/\s/g, "")}`} className="contact-link" data-testid="contact-phone-link">
-              <span className="contact-link-label">PHONE</span>
-              <span className="contact-link-value">{personal.phone}</span>
-              <span className="contact-link-arrow" aria-hidden="true">↗</span>
+            <a
+              href={`tel:${personal.phone.replace(/\s/g, "")}`}
+              className="contact-icon"
+              aria-label={`Call ${personal.name}`}
+              data-testid="contact-phone-link"
+            >
+              <span className="contact-icon-circle">
+                <PhoneIcon />
+              </span>
+              <span className="contact-icon-label">PHONE</span>
             </a>
             <a
               href={personal.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="contact-link"
+              className="contact-icon"
+              aria-label={`${personal.name} on LinkedIn`}
               data-cursor="OPEN"
               data-testid="contact-linkedin-link"
             >
-              <span className="contact-link-label">LINKEDIN</span>
-              <span className="contact-link-value">{personal.linkedinLabel}</span>
-              <span className="contact-link-arrow" aria-hidden="true">↗</span>
+              <span className="contact-icon-circle">
+                <LinkedInIcon />
+              </span>
+              <span className="contact-icon-label">LINKEDIN</span>
             </a>
           </div>
         </Reveal>
@@ -1044,6 +907,19 @@ function Contact() {
         <footer className="footer">
           <span className="footer-name">{footer.name}</span>
           <VisitorCounter />
+          <div className="footer-links">
+            <a href={`mailto:${personal.email}`} data-testid="footer-email-link">
+              {personal.email}
+            </a>
+            <a
+              href={personal.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="footer-linkedin-link"
+            >
+              {personal.linkedinLabel}
+            </a>
+          </div>
           <span className="footer-tagline">{footer.tagline}</span>
         </footer>
       </div>
@@ -1108,10 +984,8 @@ export default function App() {
         <Hero />
         <Marquee />
         <About />
-        <Work />
         <Experience />
         <Ventures />
-        <Achievements />
         <Leadership />
         <Skills />
         <Beyond />

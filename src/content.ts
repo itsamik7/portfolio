@@ -36,8 +36,10 @@ export interface ExperienceItem {
   role: string;
   dates: string;
   location: string;
+  link?: string;
   focus?: string[];
   impact?: string[];
+  points?: string[];
 }
 
 export const portfolio = {
@@ -57,7 +59,6 @@ export const portfolio = {
     links: [
       { label: "Home", href: "#home" },
       { label: "About", href: "#about" },
-      { label: "Work", href: "#work" },
       { label: "Experience", href: "#experience" },
       { label: "Ventures", href: "#ventures" },
       { label: "Contact", href: "#contact" },
@@ -66,7 +67,7 @@ export const portfolio = {
   },
 
   hero: {
-    label: "01 / HELLO",
+    label: "HELLO",
     headline: "I build businesses, solve problems & turn ideas into execution.",
     profileImage: "profile.jpg",
     annotations: ["Build", "Solve", "Learn", "Repeat"],
@@ -76,7 +77,7 @@ export const portfolio = {
       dates: "2026 — Present",
       location: "Gurugram",
     },
-    cta: "Explore My Work",
+    cta: "Explore My Experience",
   },
 
   marquee: [
@@ -90,7 +91,7 @@ export const portfolio = {
   ],
 
   about: {
-    label: "02 / ABOUT",
+    label: "ABOUT",
     headlineTop: "A builder, operator",
     headlineBottom: "and a curious learner.",
     description:
@@ -115,169 +116,24 @@ export const portfolio = {
     ],
   },
 
-  work: {
-    label: "03 / SELECTED WORK",
-    headlineTop: "Real Problems.",
-    headlineBottom: "Real Impact.",
-  },
-
-  projects: [
-    {
-      id: "thynaa",
-      index: "01",
-      title: "THYNAA HEALTHY NATURALLY",
-      category: "Strategy / GTM / Customer Insights",
-      image: "thynaa.jpg",
-      description:
-        "Launched Aarogya Bhoomi’s 300-family pilot in collaboration with the founders. Converted 500+ prospect insights from 10+ workshops into customer profiles, and converted ~15% of 100+ trial kit recipients into subscribers through one-on-one product demonstrations.",
-      metrics: [
-        { value: "300+", label: "families in pilot" },
-        { value: "500+", label: "prospect insights" },
-        { value: "~15%", label: "trial-to-subscription conversion" },
-      ],
-      caseStudy: [
-        {
-          heading: "THE PROBLEM",
-          body: "Take Aarogya Bhoomi from concept to market: a 0→1 pilot reaching 300 families, run in collaboration with the founders.",
-        },
-        {
-          heading: "WHAT I DID",
-          body: "Launched the 300-family pilot, drove the market rollout, and ran one-on-one product demonstrations for 100+ trial kit recipients.",
-        },
-        {
-          heading: "APPROACH",
-          body: "Converted 500+ prospect insights gathered across 10+ workshops into customer profiles, enabling pain-point-based targeting.",
-        },
-        {
-          heading: "OUTCOME",
-          body: "~15% of 100+ trial kit recipients converted into subscribers.",
-        },
-        {
-          heading: "LEARNING",
-          body: "Pain-point-based targeting works — insights from 500+ real prospects directly shaped who converted and why.",
-        },
-      ],
-    },
-    {
-      id: "iskcon",
-      index: "02",
-      title: "ISKCON PRAYAGRAJ",
-      category: "Operations / Systems / Scale",
-      image: "iskcon.jpg",
-      description:
-        "Led front office operations across 630+ accommodations, coordinating with 40+ staff to maintain near-100% occupancy over 2 months. Designed a centralized tracking system that reduced unresolved complaints from 150+ to approximately 20 daily.",
-      metrics: [
-        { value: "630+", label: "accommodations" },
-        { value: "40+", label: "staff coordinated" },
-        { value: "150+ → ~20", label: "daily unresolved complaints" },
-      ],
-      caseStudy: [
-        {
-          heading: "THE PROBLEM",
-          body: "Front-office operations spanned 630+ accommodations, with unresolved guest complaints piling up to 150+ daily.",
-        },
-        {
-          heading: "WHAT I DID",
-          body: "Led front office operations, coordinated with 40+ staff, and designed a centralized complaint tracking system.",
-        },
-        {
-          heading: "APPROACH",
-          body: "Resource allocation and cross-functional execution on the ground, plus process optimization through centralized tracking.",
-        },
-        {
-          heading: "OUTCOME",
-          body: "Near-100% occupancy maintained over 2 months; unresolved complaints dropped from 150+ to ~20 daily.",
-        },
-        {
-          heading: "LEARNING",
-          body: "A simple centralized system can turn operational chaos into a manageable daily queue.",
-        },
-      ],
-    },
-    {
-      id: "scaler",
-      index: "03",
-      title: "SCALER",
-      category: "Content / Process / Execution",
-      image: "scaler.jpg",
-      description:
-        "Reviewed and published 400+ technical learning modules, improving content quality, SEO and learner experience. Optimized the review process, reducing editing and reviewing time by approximately 25% while maintaining quality standards.",
-      metrics: [
-        { value: "400+", label: "modules published" },
-        { value: "~25%", label: "faster review process" },
-      ],
-      caseStudy: [
-        {
-          heading: "THE PROBLEM",
-          body: "Technical learning modules needed consistent quality, SEO and learner-experience review at high volume.",
-        },
-        {
-          heading: "WHAT I DID",
-          body: "Reviewed and published 400+ technical learning modules as a Technical Content Reviewer & Publisher.",
-        },
-        {
-          heading: "APPROACH",
-          body: "Optimized the review process end to end while holding quality standards constant.",
-        },
-        {
-          heading: "OUTCOME",
-          body: "Editing and reviewing time reduced by ~25%, with improved content quality, SEO and learner experience.",
-        },
-        {
-          heading: "LEARNING",
-          body: "Process optimization compounds — small review improvements saved ~25% of time across 400+ modules.",
-        },
-      ],
-    },
-    {
-      id: "google-search",
-      index: "04",
-      title: "GOOGLE SEARCH LAB",
-      category: "Research / User Intent / Quality",
-      image: "google-search.jpg",
-      description:
-        "Created and reviewed 300+ Search Notes submissions, evaluating user intent and quality to strengthen search trust. Recognized as the 3rd fastest contributor while consistently maintaining quality and compliance standards.",
-      metrics: [
-        { value: "300+", label: "Search Notes submissions" },
-        { value: "3rd", label: "fastest contributor" },
-      ],
-      caseStudy: [
-        {
-          heading: "THE PROBLEM",
-          body: "Search quality depends on accurately evaluating user intent and submission quality at scale.",
-        },
-        {
-          heading: "WHAT I DID",
-          body: "Created and reviewed 300+ Search Notes submissions, evaluating user intent and quality.",
-        },
-        {
-          heading: "APPROACH",
-          body: "Held quality and compliance standards constant while contributing at speed.",
-        },
-        {
-          heading: "OUTCOME",
-          body: "Recognized as the 3rd fastest contributor while consistently maintaining quality and compliance standards.",
-        },
-        {
-          heading: "LEARNING",
-          body: "Speed and quality aren’t a trade-off when the evaluation criteria are clear.",
-        },
-      ],
-    },
-  ] as Project[],
-
   experience: {
-    label: "04 / EXPERIENCE",
+    label: "EXPERIENCE",
     headlineTop: "A journey of building,",
     headlineBottom: "learning and contributing.",
-    primary: [
+    items: [
       {
         company: "THYNAA HEALTHY NATURALLY",
         role: "Founder’s Office Associate",
         dates: "Feb 2026 – Apr 2026",
         location: "Ghaziabad",
+        link: "https://thynaa.com/",
         focus: ["Strategy", "Execution", "Operations"],
         impact: ["0 → 1 pilot", "300+ families", "500+ prospect insights", "~15% conversion"],
+        points: [
+          "Launched Aarogya Bhoomi’s 300-family pilot in collaboration with the founders, driving market rollout and one-on-one product demonstrations.",
+          "Converted 500+ prospect insights from 10+ workshops into customer profiles, enabling pain-point-based targeting.",
+          "Converted ~15% of 100+ trial kit recipients into subscribers.",
+        ],
       },
       {
         company: "SHIVAM HANDLOOM",
@@ -286,32 +142,75 @@ export const portfolio = {
         location: "Madhubani",
         focus: ["Family Wholesale Business"],
         impact: ["20% revenue growth", "45 → 21 days payment cycle", "25%+ sales growth"],
+        points: [
+          "Drove 20% revenue growth through B2B analytics and demand forecasting, improving delivery and inventory efficiency.",
+          "Managed procurement, operations and receivables, reducing the payment cycle from 45 to 21 days.",
+          "Led GTM expansion and digital adoption, achieving 25%+ sales growth.",
+        ],
       },
-    ] as ExperienceItem[],
-    earlier: [
       {
         company: "THYNAA HEALTHY NATURALLY",
         role: "Community Manager Intern",
         dates: "Jun 2025 – Jan 2026",
         location: "Ghaziabad",
+        link: "https://thynaa.com/",
+        points: [
+          "Managed a 2,000+ member community, resolving 90% of queries within 24 hours.",
+          "Implemented engagement and retention initiatives that improved repeat participation.",
+        ],
       },
       {
         company: "ISKCON PRAYAGRAJ",
         role: "Front Office Lead Intern",
         dates: "Jan 2025 – Feb 2026",
         location: "Prayagraj",
+        link: "https://www.iskconprayagraj.org/",
+        impact: ["630+ accommodations", "40+ staff", "150+ → ~20 daily complaints"],
+        points: [
+          "Led front office operations across 630+ accommodations, coordinating with 40+ staff to maintain near-100% occupancy over 2 months.",
+          "Designed a centralized tracking system, reducing unresolved complaints from 150+ to ~20 daily.",
+        ],
+      },
+      {
+        company: "SCALER",
+        role: "Technical Content Reviewer & Publisher",
+        dates: "Dec 2024 – Jun 2025",
+        location: "Remote",
+        link: "https://www.scaler.com/",
+        impact: ["400+ modules published", "~25% faster review process"],
+        points: [
+          "Reviewed and published 400+ technical learning modules, improving content quality, SEO and learner experience.",
+          "Optimized the review process, reducing editing and reviewing time by ~25% while maintaining quality standards.",
+        ],
+      },
+      {
+        company: "GOOGLE SEARCH LAB",
+        role: "Content Contributor",
+        dates: "Nov 2024 – Feb 2025",
+        location: "Remote",
+        link: "https://www.google.com/",
+        impact: ["300+ Search Notes", "3rd fastest contributor"],
+        points: [
+          "Created and reviewed 300+ Search Notes submissions, evaluating user intent and quality.",
+          "Recognized as the 3rd fastest contributor while consistently maintaining quality and compliance standards.",
+        ],
       },
       {
         company: "TRAINITY",
         role: "Data Analytics Virtual Intern",
         dates: "May 2024 – Jun 2024",
         location: "Remote",
+        link: "https://trainity.online/",
+        points: [
+          "Completed Excel, SQL and Power BI training through 3 real-world projects.",
+          "Analyzed job-posting trends across 200+ roles; Instagram analytics work reached the top 10% of hashtags with 40%+ impression share.",
+        ],
       },
     ] as ExperienceItem[],
   },
 
   ventures: {
-    label: "05 / VENTURES",
+    label: "VENTURES",
     headlineTop: "Some things",
     headlineBottom: "I built.",
     venture: {
@@ -331,33 +230,6 @@ export const portfolio = {
         { value: "0 → 1", label: "Concept to execution" },
       ] as Metric[],
     },
-  },
-
-  achievements: {
-    label: "06 / ACHIEVEMENTS",
-    headline: "Moments that motivate.",
-    items: [
-      {
-        big: "TOP 5",
-        lines: ["Among 1,000+ participants", "University-level CTF competition"],
-      },
-      {
-        big: "TOP 100",
-        lines: ["From 5,000+ applicants", "Information Security Conference Scholarship"],
-      },
-      {
-        big: "1ST PLACE",
-        lines: [
-          "One-night Website Development Hackathon",
-          "Led a 4-member team",
-          "Among 1,000+ participants",
-        ],
-      },
-      {
-        big: "3RD",
-        lines: ["Among 3,000+ participants", "University-level Aptitude Competition"],
-      },
-    ],
   },
 
   leadership: {
@@ -387,7 +259,7 @@ export const portfolio = {
   },
 
   skills: {
-    label: "07 / SKILLS",
+    label: "SKILLS",
     headlineTop: "A mix of skills",
     headlineBottom: "for a multidimensional journey.",
     business: [
@@ -415,15 +287,21 @@ export const portfolio = {
   },
 
   beyond: {
-    label: "08 / BEYOND WORK",
+    label: "BEYOND WORK",
     items: [
-      { title: "Yoga & Meditation", note: "Regular practitioner for the past 2+ years." },
-      { title: "Cooking & Cuisine", note: "Exploring cuisines through experimentation." },
+      {
+        title: "Yoga & Meditation",
+        note: "Practicing consistently for the past 2+ years — a daily reset for focus, discipline and calm under pressure.",
+      },
+      {
+        title: "Cooking & Cuisine",
+        note: "Exploring cuisines by experimenting through recipe trials — a curiosity that eventually grew into The Bowl & Beyond.",
+      },
     ],
   },
 
   contact: {
-    label: "09 / GET IN TOUCH",
+    label: "GET IN TOUCH",
     headlineTop: "Let’s",
     headlineBottom: "Connect.",
     copy: "Always open for a good conversation — about opportunities, ideas, or interesting problems to solve.",

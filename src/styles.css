@@ -30,6 +30,7 @@
 
 html {
   scroll-padding-top: var(--nav-h);
+  overflow-x: hidden;
 }
 
 /* Lenis momentum scrolling — recommended resets */
@@ -617,6 +618,12 @@ button {
   }
 }
 
+.orbit-words {
+  position: absolute;
+  inset: 0;
+  animation: orbitSpin 26s linear infinite;
+}
+
 .orbit-word {
   position: absolute;
   top: 50%;
@@ -624,10 +631,21 @@ button {
   margin: -0.7em 0 0 -2.4em;
   width: 4.8em;
   text-align: center;
+}
+
+.orbit-word-inner {
+  display: inline-block;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.26em;
   color: var(--on-light);
+  animation: orbitSpinReverse 26s linear infinite;
+}
+
+@keyframes orbitSpinReverse {
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
 .orbit-center {
@@ -1197,18 +1215,20 @@ button {
 }
 
 .beyond-item {
-  display: flex;
-  align-items: baseline;
-  gap: 0.8rem;
+  max-width: 46ch;
 }
 
 .beyond-title {
+  display: block;
   font-weight: 700;
   font-size: 0.95rem;
 }
 
 .beyond-note {
-  font-size: 0.85rem;
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
   color: var(--muted-light);
 }
 
@@ -1440,6 +1460,195 @@ button {
   }
 }
 
+/* ---------- experience accordion ---------- */
+
+.exp-list {
+  border-top: 1px solid var(--line-light);
+  max-width: 900px;
+}
+
+.exp-item {
+  border-bottom: 1px solid var(--line-light);
+}
+
+.exp-header {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.7rem 0;
+  color: var(--on-light);
+}
+
+.exp-company {
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  transition: color 0.3s var(--ease);
+}
+
+.exp-header:hover .exp-company {
+  color: var(--accent);
+}
+
+.exp-role {
+  font-size: 0.9rem;
+  color: var(--muted-light);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.exp-dates {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+  margin-top: 0.45rem;
+}
+
+.exp-chevron {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--line-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: transform 0.4s var(--ease), background-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.exp-header:hover .exp-chevron,
+.exp-chevron--open {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.exp-chevron--open {
+  transform: rotate(180deg);
+}
+
+.exp-body {
+  overflow: hidden;
+}
+
+.exp-body-inner {
+  padding: 0 0 1.9rem;
+  max-width: 720px;
+}
+
+.exp-points {
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.exp-points li {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--muted-light);
+  padding-left: 1.3rem;
+  position: relative;
+}
+
+.exp-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.6rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.exp-link {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.exp-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- contact icons ---------- */
+
+.contact-icons {
+  display: flex;
+  gap: clamp(1.4rem, 4vw, 3rem);
+  margin-top: 3.2rem;
+  flex-wrap: wrap;
+}
+
+.contact-icon {
+  text-align: center;
+}
+
+.contact-icon-circle {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 1px solid var(--line-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-dark);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease),
+    transform 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.contact-icon-circle svg {
+  width: 24px;
+  height: 24px;
+}
+
+.contact-icon:hover .contact-icon-circle {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+  transform: translateY(-4px);
+}
+
+.contact-icon-label {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--muted-dark);
+}
+
+/* ---------- footer links ---------- */
+
+.footer-links {
+  display: flex;
+  gap: 1.8rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 0.82rem;
+  color: var(--muted-dark);
+  transition: color 0.3s var(--ease);
+}
+
+.footer-links a:hover {
+  color: var(--on-dark);
+}
+
 /* ---------- responsive ---------- */
 
 @media (max-width: 1024px) {
@@ -1458,6 +1667,9 @@ button {
   .nav-links,
   .nav-cta {
     display: none;
+  }
+  .nav {
+    justify-content: flex-end;
   }
   .nav-burger {
     display: flex;
@@ -1554,6 +1766,9 @@ button {
   .venture-metrics {
     gap: 1.4rem;
   }
+  .orbit {
+    --orbit-size: 230px;
+  }
 }
 
 /* ---------- leadership ---------- */
@@ -1631,6 +1846,8 @@ button {
     scroll-behavior: auto;
   }
   .orbit-ring,
+  .orbit-words,
+  .orbit-word-inner,
   .scroll-line::after {
     animation: none;
   }
